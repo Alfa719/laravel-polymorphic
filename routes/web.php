@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+use App\Models\Video;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    
+    // Make new post
+    $post = Post::create([
+        'user_id' => 3,
+        'title' => 'First Post'
+    ]);
+    $video = Video::create([
+        'title' => 'FIrst Video'
+    ]);
+
+    // Test Polymorphic use Post
+    $post->comments()->create([
+        'user_id' => 5,
+        'body' => "This Body Comment First"
+    ]);
+    // Make Comment use Video
+    $video->comments()->create([
+        'user_id' => 3,
+        'body' => 'This Body Comment Second'
+    ]);
     return view('welcome');
 });
